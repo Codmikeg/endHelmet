@@ -13,14 +13,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class endHelmet extends JavaPlugin {
     public final Logger log = Logger.getLogger("Minecraft");
-   // public File configFile;
-  //  public String value;
-   
+
     @Override
     public void onEnable() {
-           // getConfig().options().copyDefaults(true);
-           // getConfig().options().copyHeader(true);
-            //this.saveDefaultConfig();
             getServer().getPluginManager().registerEvents(new myPlayerListener(this), this);
             PluginDescriptionFile pdfFile = this.getDescription();
             this.log.info(pdfFile.getName() + " " + " v" + pdfFile.getVersion()
@@ -29,8 +24,6 @@ public class endHelmet extends JavaPlugin {
    
     @Override
     public void onDisable(){
-          //  reloadConfig();
-          //  saveConfig();
     this.getLogger().info("Plugin has been disabled! ;(");
     }
 	
