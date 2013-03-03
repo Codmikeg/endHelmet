@@ -1,0 +1,63 @@
+package me.Codmikeg.endhelmet;
+
+import java.util.logging.Logger;
+
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class endHelmet extends JavaPlugin {
+    public final Logger log = Logger.getLogger("Minecraft");
+   // public File configFile;
+  //  public String value;
+   
+    @Override
+    public void onEnable() {
+           // getConfig().options().copyDefaults(true);
+           // getConfig().options().copyHeader(true);
+            //this.saveDefaultConfig();
+            getServer().getPluginManager().registerEvents(new myPlayerListener(this), this);
+            PluginDescriptionFile pdfFile = this.getDescription();
+            this.log.info(pdfFile.getName() + " " + " v" + pdfFile.getVersion()
+                            + " : Has been enabled - Enjoy! <3");
+    }
+   
+    @Override
+    public void onDisable(){
+          //  reloadConfig();
+          //  saveConfig();
+    this.getLogger().info("Plugin has been disabled! ;(");
+    }
+	
+	
+	
+		public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+		Player player = (Player)sender;
+		if(commandLabel.equalsIgnoreCase("helmet")){
+				ItemStack helmet = player.getInventory().getHelmet();
+				//ItemStack amount = player.getInventory().getContents())
+				if(player.getItemInHand().getType() == Material.GLASS){
+					if(helmet != null && helmet.getType() != Material.AIR){
+						player.sendMessage(ChatColor.DARK_PURPLE + "You already have your helmet on!");
+					}
+					else{
+						player.getInventory().getItemInHand().setAmount(player.getInventory().getItemInHand().getAmount()-1);
+						if(player.getInventory().getItemInHand().getAmount() == 1){
+							player.getInventory().removeItem(player.getItemInHand());
+						}
+						player.getInventory().setHelmet(new ItemStack(Material.GLASS, 1));
+						player.sendMessage(ChatColor.DARK_PURPLE + "" + ChatColor.ITALIC + "Your helmet has been applied!");
+					}
+				}
+				else{
+					player.sendMessage(ChatColor.RED + "You do not have your helmet in your hand!");
+				}	
+		}
+		return false;
+	}
+}
