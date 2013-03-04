@@ -57,73 +57,72 @@ public class myPlayerListener implements Listener {
 }, 20);
                 
     }
- 
-   
-               
-        @EventHandler
-        public void onPlayerJoin(PlayerJoinEvent event){
-                Player player = event.getPlayer();
-                player.sendMessage(ChatColor.GOLD + "Hello " + player.getName() + ".");
-                World w = player.getWorld();
-                System.out.println(w);
-                if(player.getWorld().getName().equals("world_the_end")){
-                        player.sendMessage("IT WORKS");
-                        player.sendMessage("OnSpawnEvent login");
-                        ItemStack helmet = player.getInventory().getHelmet();
-                        if(helmet != null && helmet.getType() != Material.AIR){
-                                if(helmet.getType() == Material.GLASS){
-                                        player.sendMessage("Your helmet is made of glass");
-                                        //do nothing
-                                }
-                                else{
-                                        player.sendMessage("You have a helmet, but its not glass");
-                                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
-                                //HARM THE PLAYER... MUAHAHAHHA
-                                }
-                               
-                        }
-                        else{
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
-                        }
-                }
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event){
+            Player player = event.getPlayer();
+            player.sendMessage(ChatColor.GOLD + "Hello " + player.getName() + ".");
+            World w = player.getWorld();
+            System.out.println(w);
+            if(player.getWorld().getName().equals("world_the_end")){
+                    player.sendMessage("IT WORKS");
+                    player.sendMessage("OnSpawnEvent login");
+                    ItemStack helmet = player.getInventory().getHelmet();
+                    if(helmet != null && helmet.getType() != Material.AIR){
+                            if(helmet.getType() == Material.GLASS){
+                                    player.sendMessage("Your helmet is made of glass");
+                                    //do nothing
+                            }
+                            else{
+                                    player.sendMessage("You have a helmet, but its not glass");
+                                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
+                            //HARM THE PLAYER... MUAHAHAHHA
+                            }
+                           
+                    }
+                    else{
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
+                    }
+            }
+    }
+    @EventHandler
+    public void onPlayerDamage(EntityDamageEvent event){
+            Entity e = event.getEntity();
+            Player player = (Player)e;
+            ItemStack helmet = player.getInventory().getHelmet();
+            if(helmet != null && helmet.getType() != Material.AIR){
+                    if(helmet.getType() == Material.GLASS){
+                            if(e instanceof Player){
+                                    player.removePotionEffect(PotionEffectType.WITHER);
+                                    player.removePotionEffect(PotionEffectType.BLINDNESS);
+                            }
+                    }
+            }
+           
+    }     
+    @EventHandler
+    public void onPlayerTeleport(PlayerTeleportEvent event){
+            Player player = event.getPlayer();
+            player.sendMessage("AAAHHHH");
+    } 
+    @EventHandler
+    public void onWorldChange(PlayerChangedWorldEvent event){
+        Player player = event.getPlayer();
+        //World w = player.getWorld();
+        if(player.getWorld().equals(World.Environment.THE_END)){
+            player.sendMessage("OnWorldChange Event");
+            ItemStack helmet = player.getInventory().getHelmet();
+            if(helmet != null && helmet.getType() != Material.AIR){
+                    player.sendMessage(ChatColor.DARK_PURPLE + "You should be taking damage because of the world change event");
+            }
+           
+            else {
+                    player.sendMessage("blah blah blah");
+                    //player.sendMessage("Woo");
+            }
         }
-        @EventHandler
-        public void onPlayerDamage(EntityDamageEvent event){
-                Entity e = event.getEntity();
-                Player player = (Player)e;
-                ItemStack helmet = player.getInventory().getHelmet();
-                if(helmet != null && helmet.getType() != Material.AIR){
-                        if(helmet.getType() == Material.GLASS){
-                                if(e instanceof Player){
-                                        player.removePotionEffect(PotionEffectType.WITHER);
-                                        player.removePotionEffect(PotionEffectType.BLINDNESS);
-                                }
-                        }
-                }
-               
-        }
-       
-        @EventHandler
-        public void onPlayerTeleport(PlayerTeleportEvent event){
-                Player player = event.getPlayer();
-                player.sendMessage("AAAHHHH");
-        }
-       
-        @EventHandler
-        public void onWorldChange(PlayerChangedWorldEvent event){
-                Player player = event.getPlayer();
-                //World w = player.getWorld();
-                if(player.getWorld().equals(World.Environment.THE_END)){
-                        player.sendMessage("OnWorldChange Event");
-                        ItemStack helmet = player.getInventory().getHelmet();
-                        if(helmet != null && helmet.getType() != Material.AIR){
-                                player.sendMessage(ChatColor.DARK_PURPLE + "You should be taking damage because of the world change event");
-                        }
-                       
-                        else {
-                                player.sendMessage("blah blah blah");
-                                //player.sendMessage("Woo");
-                        }
-                }
-        }
+     }
+  //@EventHandler
+  //public void onInventoryOpen(InventoryOpenEvent event){
+    	
+  //}
 }
