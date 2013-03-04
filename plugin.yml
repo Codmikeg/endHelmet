@@ -6,5 +6,7 @@ description: >
 commands:
   helmet:
     description: To apply your Space Helmet!
+  h:
+  	description: To apply your Space Helmet!
   test:
     description: testing

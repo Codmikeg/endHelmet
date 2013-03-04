@@ -31,7 +31,7 @@ public class endHelmet extends JavaPlugin {
 	
 		public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		Player player = (Player)sender;
-		if(commandLabel.equalsIgnoreCase("helmet")){
+		if(commandLabel.equalsIgnoreCase("helmet") || commandLabel.equalsIgnoreCase("h")){
 				ItemStack helmet = player.getInventory().getHelmet();
 				//ItemStack amount = player.getInventory().getContents())
 				if(player.getItemInHand().getType() == Material.GLASS){
