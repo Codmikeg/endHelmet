@@ -1,12 +1,10 @@
 name: End is Space
 main: me.Codmikeg.endhelmet.endHelmet
-version: 1.2
+version: 1.3
 description: >
              End is now Space!.
 commands:
   helmet:
     description: To apply your Space Helmet!
   h:
-  	description: To apply your Space Helmet!
-  test:
-    description: testing
+    description: alias
