@@ -1,6 +1,7 @@
 name: End is Space
 main: me.Codmikeg.endhelmet.endHelmet
 version: 1.4
+author: Codmikeg
 description: >
              End is now Space!.
 commands:

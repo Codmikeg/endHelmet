@@ -21,11 +21,11 @@ import org.bukkit.potion.PotionEffectType;
 public class myPlayerListener implements Listener {
 	 endHelmet plugin;
 	  
-	 public myPlayerListener(endHelmet plugin) {
-		 this.plugin = plugin;
-	 }
-	 
-        @EventHandler
+	public myPlayerListener(endHelmet plugin) {
+		this.plugin = plugin;
+	}
+	
+    @EventHandler
     public void onRespawnEvent(PlayerRespawnEvent event) {
         final Player player = event.getPlayer();
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
@@ -45,22 +45,27 @@ public class myPlayerListener implements Listener {
 	        	}        
 	        }
         }, 20);
-        }
+    }
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
-        if(player.getWorld().getName().equals("world_the_end")){
-            ItemStack helmet = player.getInventory().getHelmet();
-            if(helmet != null && helmet.getType() != Material.AIR){
-                if(helmet.getType() == Material.GLASS){
-                }
-                else{
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
-                }
-            }
-            else{
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
-            }
+        if(player.hasPlayedBefore()){
+	        if(player.getWorld().getName().equals("world_the_end")){
+	            ItemStack helmet = player.getInventory().getHelmet();
+	            if(helmet != null && helmet.getType() != Material.AIR){
+	                if(helmet.getType() == Material.GLASS){
+	                }
+	                else{
+	                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
+	                }
+	            }
+	            else{
+	                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
+	            }
+	        }
+        }
+        else{
+        	player.getInventory().setHelmet(new ItemStack(Material.GLASS, 1));
         }
     }
     @EventHandler
@@ -85,8 +90,8 @@ public class myPlayerListener implements Listener {
             if(helmet != null && helmet.getType() != Material.AIR){
                 if(helmet.getType() == Material.GLASS){}
                 else{
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
-                }     
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
+                }
             }
             else{
                     player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
