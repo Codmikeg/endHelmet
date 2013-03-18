@@ -2,8 +2,8 @@ package me.Codmikeg.endhelmet;
  
  
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -49,7 +50,7 @@ public class myPlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
-        if(player.hasPlayedBefore()){
+        if(player.hasPlayedBefore() == true){
 	        if(player.getWorld().getName().equals("world_the_end")){
 	            ItemStack helmet = player.getInventory().getHelmet();
 	            if(helmet != null && helmet.getType() != Material.AIR){
@@ -71,16 +72,19 @@ public class myPlayerListener implements Listener {
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent event){
         Entity e = event.getEntity();
-        Player player = (Player)e;
-        ItemStack helmet = player.getInventory().getHelmet();
-        if(helmet != null && helmet.getType() != Material.AIR){
-            if(helmet.getType() == Material.GLASS){
-                if(e instanceof Player){
-                    player.removePotionEffect(PotionEffectType.WITHER);
-                }
-                if(e instanceof Block){}
-            }
+        if(e instanceof Player){
+        	Player player = (Player)e;
+	        ItemStack helmet = player.getInventory().getHelmet();
+	        if(helmet != null && helmet.getType() != Material.AIR){
+	            if(helmet.getType() == Material.GLASS){
+	                if(e instanceof Player){
+	                    player.removePotionEffect(PotionEffectType.WITHER);
+	                }
+	                if(e instanceof Block){}
+	            }
+	        }	
         }
+
     }     
     @EventHandler
     public void onWorldChange(PlayerChangedWorldEvent event){
@@ -100,18 +104,36 @@ public class myPlayerListener implements Listener {
     }
     @EventHandler
     public void onClickEvent(InventoryClickEvent event){
-		ItemStack helmet = event.getWhoClicked().getInventory().getHelmet();
-		System.out.println(helmet);
-		World w = event.getWhoClicked().getWorld();
-		System.out.println(w);
-		if(event.getWhoClicked().getWorld().getName().equals("world_the_end")){
-    		if(helmet != null){
-    			if(helmet.getType() == Material.GLASS){
-    			}
+    	if(event.getWhoClicked().getGameMode() == GameMode.CREATIVE){
+    		
+    	}
+    	else{
+    		ItemStack helmet = event.getWhoClicked().getInventory().getHelmet();
+    		if(event.getWhoClicked().getWorld().getName().equals("world_the_end")){
+        		if(helmet != null){
+        			if(helmet.getType() == Material.GLASS){
+        			}
+        		}
+        		else{
+        			event.getWhoClicked().addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
+        		}
     		}
-    		else{
-    			event.getWhoClicked().addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
-    		}
-		}
-    }   
+    	}
+    }
+    @EventHandler
+    public void onGamemodeChange(PlayerGameModeChangeEvent event){
+    	Player player = event.getPlayer();
+        if(player.getWorld().getName().equals("world_the_end")){
+            ItemStack helmet = player.getInventory().getHelmet();
+            if(helmet != null && helmet.getType() != Material.AIR){
+                if(helmet.getType() == Material.GLASS){}
+                else{
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
+                }
+            }
+            else{
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
+            }
+        }
+    }
 }
