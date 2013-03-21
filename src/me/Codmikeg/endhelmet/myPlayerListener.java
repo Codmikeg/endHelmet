@@ -37,11 +37,11 @@ public class myPlayerListener implements Listener {
 		                if(helmet.getType() == Material.GLASS){
 		                }
 		                else{
-		                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
+		                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 10));
 		                }
 		            }
 		            else{
-		                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
+		                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 10));
 		            }
 	        	}        
 	        }
@@ -57,11 +57,11 @@ public class myPlayerListener implements Listener {
 	                if(helmet.getType() == Material.GLASS){
 	                }
 	                else{
-	                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
+	                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 10));
 	                }
 	            }
 	            else{
-	                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
+	                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 10));
 	            }
 	        }
         }
@@ -89,19 +89,29 @@ public class myPlayerListener implements Listener {
     @EventHandler
     public void onWorldChange(PlayerChangedWorldEvent event){
     	Player player = event.getPlayer();
-        if(player.getWorld().getName().equals("world_the_end")){
-            ItemStack helmet = player.getInventory().getHelmet();
-            if(helmet != null && helmet.getType() != Material.AIR){
-                if(helmet.getType() == Material.GLASS){}
-                else{
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
-                }
-            }
-            else{
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
-            }
-        }
+    	if(player.getWorld().getName().equals("world") || player.getWorld().getName().equals("world_nether")){
+    		if(player.hasPotionEffect(PotionEffectType.WITHER)){
+    			player.removePotionEffect(PotionEffectType.WITHER);
+    		}
+    	}
+    	else{
+	        if(player.getWorld().getName().equals("world_the_end")){
+	            ItemStack helmet = player.getInventory().getHelmet();
+	            if(helmet != null && helmet.getType() != Material.AIR){
+	                if(helmet.getType() == Material.GLASS){}
+	                else{
+	                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 10));
+	                }
+	            }
+	            else{
+	                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 10));
+	            }
+	        }
+    	}
     }
+  
+    
+    
     @EventHandler
     public void onClickEvent(InventoryClickEvent event){
     	if(event.getWhoClicked().getGameMode() == GameMode.CREATIVE){
@@ -115,7 +125,7 @@ public class myPlayerListener implements Listener {
         			}
         		}
         		else{
-        			event.getWhoClicked().addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
+        			event.getWhoClicked().addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 10));
         		}
     		}
     	}
@@ -123,17 +133,25 @@ public class myPlayerListener implements Listener {
     @EventHandler
     public void onGamemodeChange(PlayerGameModeChangeEvent event){
     	Player player = event.getPlayer();
-        if(player.getWorld().getName().equals("world_the_end")){
-            ItemStack helmet = player.getInventory().getHelmet();
-            if(helmet != null && helmet.getType() != Material.AIR){
-                if(helmet.getType() == Material.GLASS){}
-                else{
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
-                }
-            }
-            else{
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 5000, 10));
-            }
-        }
+    	if(event.getNewGameMode() == GameMode.CREATIVE || event.getNewGameMode() == GameMode.ADVENTURE){
+    		if(player.hasPotionEffect(PotionEffectType.WITHER)){
+    			player.removePotionEffect(PotionEffectType.WITHER);
+    		}
+    	}
+    	else{
+	        if(player.getWorld().getName().equals("world_the_end")){
+	            ItemStack helmet = player.getInventory().getHelmet();
+	            if(helmet != null && helmet.getType() != Material.AIR){
+	                if(helmet.getType() == Material.GLASS){}
+	                else{
+	                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 10));
+	                }
+	            }
+	            else{
+	                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 10));
+	            }
+	        }
+    	}
     }
+        
 }
