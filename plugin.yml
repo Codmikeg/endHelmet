@@ -9,3 +9,7 @@ commands:
     description: To apply your Space Helmet!
   h:
     description: alias
+  debug:
+    description: debugger
+  debug2:
+    description: remove effect

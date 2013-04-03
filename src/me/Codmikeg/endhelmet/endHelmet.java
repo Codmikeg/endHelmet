@@ -54,9 +54,7 @@ public class endHelmet extends JavaPlugin {
 				}	
 		}
 		if(commandLabel.equalsIgnoreCase("debug")){
-			if(player.getInventory().getBoots().getType() == Material.CHAINMAIL_BOOTS){
-				player.sendMessage("Fuck you");
-			}
+			armourCheck.checkArmour(player);
 		}
 		if(commandLabel.equalsIgnoreCase("debug2")){
 			player.removePotionEffect(PotionEffectType.BLINDNESS);

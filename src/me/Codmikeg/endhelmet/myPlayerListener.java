@@ -2,6 +2,7 @@ package me.Codmikeg.endhelmet;
  
  
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -37,27 +38,46 @@ public class myPlayerListener implements Listener {
 	        public void run() {
 	        	if(player.getWorld().getName().equals("world_the_end")){
 		            helmetCheck.checkHelmet(player);
+        			armourCheck.checkArmour(player);
+		            
 	        	}        
 	        }
-        }, 20);
+        }, 30);
     }
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
-        Player player = event.getPlayer();
-        if(player.hasPlayedBefore() == true){
-        	if(player.getGameMode() == GameMode.CREATIVE){
-        	}
-        	else{
-		        if(player.getWorld().getName().equals("world_the_end")){
-		        	helmetCheck.checkHelmet(player);
+        final Player player = event.getPlayer();
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+	        public void run() {
+		        if(player.hasPlayedBefore() == true){
+		        	if(player.getGameMode() == GameMode.CREATIVE){
+		        	}
+		        	else{
+				        if(player.getWorld().getName().equals("world_the_end")){
+				        	if(player.hasPotionEffect(PotionEffectType.POISON)){
+				        		player.removePotionEffect(PotionEffectType.POISON);
+				        		if(player.hasPotionEffect(PotionEffectType.POISON)){}
+				        		else{
+				        			helmetCheck.checkHelmet(player);
+				        			armourCheck.checkArmour(player);
+				        		}
+				        			
+				        	}
+				        	else{
+			        			helmetCheck.checkHelmet(player);
+			        			armourCheck.checkArmour(player);
+				        	}
+				        }
+				    }
 		        }
-        	}
-        } 
-        else{
-        	player.getInventory().setHelmet(new ItemStack(Material.GLASS, 1));
-        	
-        }
-    }
+		        else{
+		        	player.getInventory().setHelmet(new ItemStack(Material.GLASS, 1));
+		    	}
+	        } 
+	    }, 20);
+    } 
+        
+    
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent event){
         Entity e = event.getEntity();
@@ -118,19 +138,12 @@ public class myPlayerListener implements Listener {
     	final Player player = event.getPlayer();
     	ItemStack helmet = player.getInventory().getHelmet();
     	if(player.getItemInHand().getType() == Material.GLASS){
-    		player.sendMessage("penis");
     		if(event.getAction() == Action.RIGHT_CLICK_AIR){
-    			player.sendMessage("1");
-    			if(helmet != null && helmet.getType() != Material.AIR){
-    				player.sendMessage("Failed to apply helmet. You already have something on your head!");
-    			}
+    			if(helmet != null && helmet.getType() != Material.AIR){}
     			else{
-    				player.sendMessage("2");
 	    			if(helmet != null && helmet.getType() != Material.AIR){
-	    				player.sendMessage("Faggots");
 	    			}
 	    			else{
-	    				player.sendMessage("MORE FAGGOTS");
 	    				player.getInventory().getItemInHand().setAmount(player.getInventory().getItemInHand().getAmount()-1);
 						if(player.getInventory().getItemInHand().getAmount() == 1){
 							player.getInventory().removeItem(player.getItemInHand());
@@ -140,6 +153,27 @@ public class myPlayerListener implements Listener {
 					        	player.getInventory().setHelmet(new ItemStack(Material.GLASS, 1));        
 					        }
 				        }, 5);
+						player.sendMessage(ChatColor.DARK_PURPLE + "" + ChatColor.ITALIC + "Applied Helmet successfully.");
+	    			}	
+				}
+    		}
+    		else if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
+    			if(helmet != null && helmet.getType() != Material.AIR){}
+    			else{
+	    			if(helmet != null && helmet.getType() != Material.AIR){
+	    			}
+	    			else{	    				
+	    				player.getInventory().getItemInHand().setAmount(player.getInventory().getItemInHand().getAmount()-1);
+						if(player.getInventory().getItemInHand().getAmount() == 1){
+							player.getInventory().removeItem(player.getItemInHand());
+						}
+						Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+					        public void run() {
+					        	player.getInventory().setHelmet(new ItemStack(Material.GLASS, 1));        
+					        }
+				        }, 5);
+						player.sendMessage(ChatColor.DARK_PURPLE + "" + ChatColor.ITALIC + "Applied Helmet successfully.");
+						event.setCancelled(true);
 	    			}	
 				}
     		}
